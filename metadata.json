@@ -1,0 +1,5 @@
+{
+  "name": "Parallel C Trainer",
+  "description": "A visual eye-training tool featuring animating vector C shapes with customizable speed and magnitude.",
+  "requestFramePermissions": []
+}
