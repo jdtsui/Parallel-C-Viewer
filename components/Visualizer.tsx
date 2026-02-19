@@ -50,7 +50,8 @@ export const Visualizer: React.FC<VisualizerProps> = ({
   // Scale calculations
   const maxScale = separation / (2 * R_OUT);
   const minScale = maxScale * endSizePct;
-  const baseOffset = separation / 2;
+  // Ensure exactly 1px gap between the two Cs at max size (0.5px offset per side from the touching point)
+  const baseOffset = (separation / 2) + 0.5;
   
   // State for rendering
   const [scale, setScale] = useState(maxScale);
