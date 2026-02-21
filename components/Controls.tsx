@@ -52,7 +52,7 @@ export const Controls: React.FC<ControlsProps> = ({
       <div className={containerClass}>
         {/* Fullscreen Button */}
         <button 
-          onClick={onToggleFullscreen}
+          onClick={(e) => { e.stopPropagation(); onToggleFullscreen(); }}
           className={`${iconBtnClass} right-24 ${showSettings ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
         >
@@ -61,7 +61,7 @@ export const Controls: React.FC<ControlsProps> = ({
 
         {/* Settings Button */}
         <button 
-          onClick={() => setShowSettings(true)}
+          onClick={(e) => { e.stopPropagation(); setShowSettings(true); }}
           className={`${iconBtnClass} right-6 ${showSettings ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           title="Settings"
         >
@@ -72,13 +72,13 @@ export const Controls: React.FC<ControlsProps> = ({
       {/* Floating Play/Pause Button (Bottom Center) */}
       <div className={`fixed bottom-12 left-1/2 -translate-x-1/2 z-40 ${containerClass}`}>
         <button
-          onClick={onTogglePlay}
+          onClick={(e) => { e.stopPropagation(); onTogglePlay(); }}
           className="group flex items-center justify-center w-20 h-20 bg-white text-black rounded-full hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-white/20"
         >
           {isPlaying ? (
             <Pause size={32} className="fill-current" />
           ) : (
-            // Adjusted transform: Changed to -translate-x-1 for better optical alignment
+            // Adjusted transform: Changed to -translate-x for better optical alignment
             <Play size={32} className="fill-current -translate-x" />
           )}
         </button>
@@ -91,16 +91,19 @@ export const Controls: React.FC<ControlsProps> = ({
         {/* Backdrop */}
         <div 
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-          onClick={() => setShowSettings(false)}
+          onClick={(e) => { e.stopPropagation(); setShowSettings(false); }}
         />
         
         {/* Card */}
-        <div className={`relative bg-zinc-900 border border-zinc-700 p-8 rounded-3xl w-[90%] max-w-sm shadow-2xl transform transition-all duration-300 ${showSettings ? 'scale-100 translate-y-0' : 'scale-95 translate-y-4'}`}>
+        <div 
+            className={`relative bg-zinc-900 border border-zinc-700 p-8 rounded-3xl w-[90%] max-w-sm shadow-2xl transform transition-all duration-300 ${showSettings ? 'scale-100 translate-y-0' : 'scale-95 translate-y-4'}`}
+            onClick={(e) => e.stopPropagation()}
+        >
           
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-white text-lg font-semibold tracking-wide">Configuration</h2>
             <button 
-              onClick={() => setShowSettings(false)}
+              onClick={(e) => { e.stopPropagation(); setShowSettings(false); }}
               className="text-zinc-500 hover:text-white transition-colors"
             >
               <X size={24} />

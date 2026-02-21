@@ -4,10 +4,10 @@ import { Controls } from './components/Controls';
 
 const App: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [speed, setSpeed] = useState(1.0);
+  const [speed, setSpeed] = useState(0.5);
   const [separation, setSeparation] = useState(1000);
   const [endSizePct, setEndSizePct] = useState(0.4);
-  const [rotationSpeed, setRotationSpeed] = useState(1.0); 
+  const [rotationSpeed, setRotationSpeed] = useState(0.5); 
   const [phaseInterval, setPhaseInterval] = useState(3); // How many cycles before switching mode
   
   const [isUiVisible, setIsUiVisible] = useState(true);
@@ -35,6 +35,20 @@ const App: React.FC = () => {
       console.error("Error toggling fullscreen:", err);
     }
   };
+
+  // Keyboard Control (Spacebar)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setIsPlaying(prev => !prev);
+        // Show UI briefly when interacting via keyboard
+        setIsUiVisible(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Handle UI visibility based on mouse movement and play state
   useEffect(() => {
@@ -73,8 +87,15 @@ const App: React.FC = () => {
     };
   }, [isPlaying]);
 
+  const handleBackgroundClick = () => {
+    setIsPlaying(prev => !prev);
+  };
+
   return (
-    <div className={`relative w-screen h-screen bg-black overflow-hidden select-none ${isPlaying && !isUiVisible ? 'cursor-none' : ''}`}>
+    <div 
+      className={`relative w-screen h-screen bg-black overflow-hidden select-none ${isPlaying && !isUiVisible ? 'cursor-none' : ''}`}
+      onClick={handleBackgroundClick}
+    >
       
       {/* Background/Canvas */}
       <Visualizer 
